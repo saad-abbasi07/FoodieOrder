@@ -1,17 +1,25 @@
 import { Link } from "react-router-dom";
+import { Toaster, toast } from "sonner";
 
 export default function Login() {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    toast.success("Login successful!");
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-6">
-      <div className="w-full max-w-md bg-white rounded-xl shadow p-8">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 sm:px-6">
+      <Toaster position="top-center" />
+      <div className="w-full max-w-md bg-white rounded-xl shadow p-6 sm:p-8">
         <h1 className="text-2xl font-bold mb-6 text-center">Login</h1>
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={handleSubmit}>
           <div>
             <label className="block text-gray-700 mb-1">Email</label>
             <input
               type="email"
               className="w-full border rounded-lg px-3 py-2"
               placeholder="you@example.com"
+              required
             />
           </div>
           <div>
@@ -20,6 +28,7 @@ export default function Login() {
               type="password"
               className="w-full border rounded-lg px-3 py-2"
               placeholder="********"
+              required
             />
           </div>
           <button
