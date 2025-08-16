@@ -1,10 +1,23 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Toaster, toast } from "sonner";
+import { useState } from "react";
+import axios from "axios";
 
 export default function SignupPage() {
-  const handleSubmit = (e) => {
+  const navigate = useNavigate();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    toast.success("Account created successfully!");
+    try {
+      await axios.post("/api/auth/register", { name, email, password });
+      toast.success("Account created successfully!");
+      navigate("/login");
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Signup failed");
+    }
   };
 
   return (
@@ -17,6 +30,8 @@ export default function SignupPage() {
             <label className="block text-gray-700 mb-1">Name</label>
             <input
               type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               className="w-full border rounded-lg px-3 py-2"
               placeholder="Your Name"
               required
@@ -26,6 +41,8 @@ export default function SignupPage() {
             <label className="block text-gray-700 mb-1">Email</label>
             <input
               type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full border rounded-lg px-3 py-2"
               placeholder="you@example.com"
               required
@@ -35,6 +52,8 @@ export default function SignupPage() {
             <label className="block text-gray-700 mb-1">Password</label>
             <input
               type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="w-full border rounded-lg px-3 py-2"
               placeholder="********"
               required
